@@ -15,31 +15,34 @@ function divide(num1,num2){
 }
 
 function operate(operation){
-    let operatorChecker = "+x÷-"
-    console.log("clicou")
-    console.log(operation)
-    /*
-    let n1 = window.prompt("primeiro numero")
-    let op = window.prompt("operador")
-    let n2 = window.prompt("segundo numero")
+    let pos = operation.findIndex(item => item == "x" || item == "+" || item == "÷" || item == "-")
 
-    let result = 0
-    switch(op.toString()){
+    let n1 = Number(operation.slice(0,pos).join(""))
+    let n2 = Number(operation.slice(pos+1,operation.length).join(""))
+    let op = operation.slice(pos, pos+1).toString()
+
+    console.log(`n1 ${n1}`)
+    console.log(`n2 ${n2}`)
+    console.log(op)
+    let teste = 0
+    switch(op){
         case "+":
-            result = add(n1,n2)
+            teste = add(n1,n2)
             break
-        case "*":
-            result = multiply(n1,n2)
+        case "x":
+            teste = multiply(n1,n2)
             break
         case "-":
-            result = subtract(n1,n2)
+            teste = subtract(n1,n2)
             break
-        case "/":
-            result = divide(n1,n2)
+        case "÷":
+            teste = divide(n1,n2)
             break 
     }
-    console.log(result)
-    */
+    teste = teste.toString().split("")
+    arr = teste
+
+    display.innerHTML = arr.join("")
 }
 
 function numberDisplay(input){
@@ -48,6 +51,16 @@ function numberDisplay(input){
     console.log(arr)
 
     display.innerText = arr.join("")
+}
+
+function eraser(){
+    arr.pop()
+    display.innerHTML = arr.join("")
+}
+
+function deleter(){
+    arr = []
+    display.innerHTML = 0
 }
 
 let arr = []
@@ -67,3 +80,9 @@ for(let i = 0; i<operatorsArr.length;i++){
 
 let equal = document.getElementById("equal")
 equal.addEventListener("click", () => operate(arr))
+
+let eraseButton = document.getElementById("erase")
+eraseButton.addEventListener("click", () => eraser())
+
+let deleteButton = document.getElementById("delete")
+deleteButton.addEventListener("click", () => deleter())
