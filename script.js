@@ -15,55 +15,109 @@ function divide(num1,num2){
 }
 
 function operate(operation){
-    let pos = operation.findIndex(item => item == "x" || item == "+" || item == "÷" || item == "-")
+    let pos = operatorPosition(arr)
 
-    let n1 = Number(operation.slice(0,pos).join(""))
-    let n2 = Number(operation.slice(pos+1,operation.length).join(""))
-    let op = operation.slice(pos, pos+1).toString()
+    if(pos > -1){
+        let n1 = Number(operation.slice(0,pos).join(""))
+        let n2 = Number(operation.slice(pos+1,operation.length).join(""))
+        let op = operation.slice(pos, pos+1).toString()
 
-    console.log(`n1 ${n1}`)
-    console.log(`n2 ${n2}`)
-    console.log(op)
-    let teste = 0
-    switch(op){
-        case "+":
-            teste = add(n1,n2)
-            break
-        case "x":
-            teste = multiply(n1,n2)
-            break
-        case "-":
-            teste = subtract(n1,n2)
-            break
-        case "÷":
-            teste = divide(n1,n2)
-            break 
+        console.log(`n1 ${n1}`)
+        console.log(`n2 ${n2}`)
+        console.log(op)
+        let result = 0
+        switch(op){
+            case "+":
+                result = add(n1,n2)
+                break
+            case "x":
+                result = multiply(n1,n2)
+                break
+            case "-":
+                result = subtract(n1,n2)
+                break
+            case "÷":
+                result = divide(n1,n2)
+                break 
+        }
+        result = result.toString().split("")
+        arr = result
+
+        return arr.join("")
+    } else {
+        return arr.join("")
     }
-    teste = teste.toString().split("")
-    arr = teste
-
-    display.innerHTML = arr.join("")
 }
 
 function numberDisplay(input){
-    arr.push(input.innerText)
-    console.log(input.innerText)
+    let numbers = ["1","2","3","4","5","6","7","8","9"]
+    let operators = ["+","-","x","÷"]
+    let others = [".","0"]
+
+    let operPos = operatorPosition(arr)
+
+    if(numbers.includes(input.innerText)){
+        if(arr.length == 1 && arr[0] == "0"){
+            arr.pop()
+            arr.push(input.innerText)
+        }else{
+            arr.push(input.innerText)
+        }
+    }
+
+    if(operators.includes(input.innerText)){
+        console.log(operators.map((item) => arr.includes(item)))
+        arr.push(input.innerText)
+    }
+
+    if(others.includes(input.innerText)){
+        arr.push(input.innerText)
+    }
     console.log(arr)
+    /*
+    if(input.innerText != "." && input.innerText != "0"){
+        if(arr.length == 1 && arr[0] == "0"){
+            arr.pop()
+            arr.push(input.innerText)
+            console.log(arr)
+        }else{
+            arr.push(input.innerText)
+            console.log(arr)
+        }
+    } else{
+        if(input.innerText == "0" && operPos == -1 && arr.length >= 1 && arr[0] != "0"){
+            arr.push(input.innerText)
+        } else if(operPos >= 0){
+            arr.push(input.innerText)
+        }
+    }
+
 
     display.innerText = arr.join("")
+    */
+   display.innerText = arr.join("")
 }
 
 function eraser(){
     arr.pop()
-    display.innerHTML = arr.join("")
+    if(arr.length>0){
+        display.innerHTML = arr.join("")
+    } else {
+        arr = ["0"]
+        display.innerHTML = arr
+    }
 }
 
 function deleter(){
-    arr = []
-    display.innerHTML = 0
+    arr = ["0"]
+    display.innerHTML = arr
 }
 
-let arr = []
+function operatorPosition(checker){
+    return checker.findIndex(item => item == "x" || item == "+" || item == "÷" || item == "-")
+}
+
+let arr = ["0"]
 let display = document.querySelector("#result")
 
 let numberArr = document.querySelectorAll(".number")
@@ -79,7 +133,7 @@ for(let i = 0; i<operatorsArr.length;i++){
 }
 
 let equal = document.getElementById("equal")
-equal.addEventListener("click", () => operate(arr))
+equal.addEventListener("click", () => display.innerText = operate(arr))
 
 let eraseButton = document.getElementById("erase")
 eraseButton.addEventListener("click", () => eraser())
