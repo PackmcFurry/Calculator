@@ -66,36 +66,47 @@ function numberDisplay(input){
     }
 
     if(operators.includes(input.innerText)){
-        console.log(operators.map((item) => arr.includes(item)))
+        if(operPos > -1){
+            if(arr.length > operPos+1){
+                operate(arr)
+            } else{
+                arr.pop()
+            }
+        }
+
+        if(operPos == -1 && arr.includes(".")){
+            let dotPos = arr.indexOf(".")
+            console.log(dotPos)
+            if(arr.includes("0", dotPos)){
+                //arr = (arr.slice(0,dotPos))
+            }
+        }
         arr.push(input.innerText)
     }
 
     if(others.includes(input.innerText)){
-        arr.push(input.innerText)
+        if(input.innerText == "."){
+            if(operPos == -1){
+                if(arr.includes(".") == false){
+                    arr.push(input.innerText)
+                }
+            } else if(arr.includes(".", operPos) == false){
+                    arr.push(input.innerText)
+            }
+        }
+
+        if(input.innerText == "0"){
+            if(operPos == -1){
+                if(arr[0] != "0" || arr.includes(".")){
+                    arr.push(input.innerText)
+                }
+            } else if(arr[operPos+1] != "0" || arr.includes(".")){
+                arr.push(input.innerText)
+            }
+        }
     }
     console.log(arr)
-    /*
-    if(input.innerText != "." && input.innerText != "0"){
-        if(arr.length == 1 && arr[0] == "0"){
-            arr.pop()
-            arr.push(input.innerText)
-            console.log(arr)
-        }else{
-            arr.push(input.innerText)
-            console.log(arr)
-        }
-    } else{
-        if(input.innerText == "0" && operPos == -1 && arr.length >= 1 && arr[0] != "0"){
-            arr.push(input.innerText)
-        } else if(operPos >= 0){
-            arr.push(input.innerText)
-        }
-    }
-
-
     display.innerText = arr.join("")
-    */
-   display.innerText = arr.join("")
 }
 
 function eraser(){
