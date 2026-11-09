@@ -22,9 +22,6 @@ function operate(operation){
         let n2 = Number(operation.slice(pos+1,operation.length).join(""))
         let op = operation.slice(pos, pos+1).toString()
 
-        console.log(`n1 ${n1}`)
-        console.log(`n2 ${n2}`)
-        console.log(op)
         let result = 0
         switch(op){
             case "+":
@@ -76,11 +73,9 @@ function numberDisplay(input){
 
         if(operPos == -1 && arr.includes(".")){
             let dotPos = arr.indexOf(".")
-            console.log(dotPos)
             if(arr.includes("0", dotPos)){
                 let lastNum = (numbers.map((item) => arr.lastIndexOf(item)))
                 lastNum = lastNum.reduce((highest, current) => current > highest ? highest = current : highest,0 )
-                console.log(lastNum)
                 arr = (arr.slice(0,lastNum+1))
             }
         }
@@ -108,7 +103,6 @@ function numberDisplay(input){
             }
         }
     }
-    console.log(arr)
     display.innerText = arr.join("")
 }
 
@@ -132,7 +126,6 @@ function operatorPosition(checker){
 }
 
 function keyboardCompatibility(key){
-    console.log(key)
     if(numbers.includes(key) || operators.includes(key) || others.includes(key)){
         if(key == "/"){
             numberDisplay("÷")
